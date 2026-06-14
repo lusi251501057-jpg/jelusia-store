@@ -1,0 +1,594 @@
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelusia Store - Baju & Aksesoris Terkini</title>
+    <style>
+        /* --- Reset & Gaya Umum --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            padding-bottom: 60px;
+        }
+
+        /* --- Header & Navigasi Responsif --- */
+        header {
+            background-color: #ffffff;
+            padding: 15px 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+        
+        .logo-badge-jla {
+            position: relative;
+            background: linear-gradient(135deg, #ff4d94, #ff85a2);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 77, 148, 0.3);
+            border: 2px solid #ffffff;
+        }
+        
+        .char-j { position: absolute; font-family: 'Georgia', serif; font-size: 24px; font-weight: 900; color: rgba(255, 255, 255, 0.4); left: 8px; top: 4px; }
+        .char-l { position: absolute; font-family: 'Georgia', serif; font-size: 20px; font-weight: 900; color: #ffffff; bottom: 5px; left: 16px; z-index: 2; }
+        .char-a { position: absolute; font-family: 'Segoe UI', sans-serif; font-size: 22px; font-weight: 800; color: #ffffff; top: 4px; right: 8px; z-index: 3; text-shadow: -1px -1px 0 #ff4d94, 1px 1px 0 #ff4d94; }
+        
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-main { font-size: 22px; font-weight: 800; color: #1a1a1a; line-height: 1.1; }
+        .logo-main span { color: #ff4d94; }
+        .logo-sub { font-size: 10px; font-weight: 700; color: #777; letter-spacing: 3px; text-transform: uppercase; }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        nav a.active, nav a:hover {
+            color: #ff4d94;
+            background-color: #fff0f5;
+        }
+        
+        .header-right { width: 100%; display: flex; justify-content: center; }
+        .cart-icon {
+            cursor: pointer;
+            background: #ff4d94;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 4px 10px rgba(255, 77, 148, 0.2);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80') no-repeat center center/cover;
+            padding: 40px 20px;
+            color: white;
+            text-align: center;
+        }
+        .hero h1 { font-size: 28px; margin-bottom: 8px; }
+        .hero p { font-size: 14px; opacity: 0.9; }
+
+        /* --- Search Bar --- */
+        .search-wrapper {
+            max-width: 500px;
+            margin: 25px auto 5px auto;
+            padding: 0 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-input:focus {
+            border-color: #ff4d94;
+            box-shadow: 0 4px 12px rgba(255, 77, 148, 0.15);
+        }
+
+        /* --- Katalog Produk (Grid Responsif) --- */
+        .container { padding: 30px 5%; }
+        h2 { text-align: center; color: #444; margin-bottom: 25px; font-size: 22px; position: relative; }
+        h2::after { content: ''; width: 40px; height: 3px; background: #ff4d94; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+        }
+        .product-img { width: 100%; height: 160px; object-fit: cover; }
+        .product-info { padding: 12px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #333; text-align: left; min-height: 40px; }
+        .product-price { color: #ff4d94; font-weight: bold; font-size: 14px; margin-bottom: 10px; text-align: left; }
+        
+        .product-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .product-options label { font-size: 11px; font-weight: bold; color: #777; margin-bottom: 2px; display: block; }
+        .product-options select { width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; background: #fff; }
+
+        .btn-buy { background-color: #ff4d94; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 13px; margin-top: auto; }
+        .no-results-msg { grid-column: 1 / -1; text-align: center; padding: 40px 10px; color: #777; font-size: 14px; display: none; }
+
+        /* --- Keranjang Belanja Modal (Mobile Friendly) --- */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.3s ease;
+            z-index: 200;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-modal.active { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .close-cart { cursor: pointer; font-size: 22px; font-weight: bold; }
+        .cart-items { flex-grow: 1; overflow-y: auto; margin-top: 15px; }
+        
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee; gap: 10px; }
+        .cart-item-details { flex: 1; }
+        .cart-item-details strong { font-size: 14px; color: #222; display: block; }
+        .cart-item-details small { color: #666; font-size: 11px; }
+        
+        .cart-qty-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+        .btn-qty { background: #f0f0f0; border: 1px solid #ddd; width: 24px; height: 24px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        .cart-qty-num { font-weight: 600; font-size: 13px; }
+        .cart-item-right { text-align: right; }
+        .item-nominal-price { font-weight: bold; color: #ff4d94; font-size: 13px; display: block; }
+        .btn-delete { background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 14px; margin-top: 5px; }
+
+        /* --- Kontainer Ekspedisi & Pembayaran --- */
+        .shipping-container, .payment-container { margin-top: 12px; padding-top: 10px; border-top: 2px dashed #eee; }
+        .shipping-container h4, .payment-container h4 { font-size: 12px; color: #444; margin-bottom: 6px; text-transform: uppercase; }
+        .shipping-option, .payment-option { display: block; margin-bottom: 6px; cursor: pointer; }
+        .shipping-option input, .payment-option input { display: none; }
+        .shipping-box, .payment-box { display: flex; align-items: center; padding: 8px; border: 2px solid #e0e0e0; border-radius: 6px; }
+        .shipping-box .icon, .payment-box .icon { font-size: 1.1rem; margin-right: 8px; }
+        .shipping-details strong, .payment-details strong { font-size: 12px; color: #222; display: block; }
+        .shipping-details p, .payment-details p { font-size: 10px; color: #666; }
+        .shipping-option input:checked + .shipping-box, .payment-option input:checked + .payment-box { border-color: #ff4d94; background-color: #fff0f5; }
+
+        .cart-total { margin-top: 15px; font-size: 16px; font-weight: bold; display: flex; justify-content: space-between; border-top: 2px solid #eee; padding-top: 10px; }
+        .btn-checkout { background-color: #25d366; color: white; border: none; padding: 12px; width: 100%; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        /* --- Live Chat Widget --- */
+        .chat-widget-container { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+        .chat-launcher-btn { background: linear-gradient(135deg, #ff4d94, #ff85a2); color: white; width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(255, 77, 148, 0.4); border: none; }
+        .chat-box-window { position: absolute; bottom: 65px; right: 0; width: 300px; height: 380px; background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: none; flex-direction: column; overflow: hidden; border: 1px solid #eee; }
+        .chat-box-window.active { display: flex; }
+        .chat-box-header { background: linear-gradient(135deg, #ff4d94, #ff85a2); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .status-dot { width: 8px; height: 8px; background-color: #25d366; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .chat-messages-area { flex: 1; padding: 12px; overflow-y: auto; background-color: #f7f9fa; display: flex; flex-direction: column; gap: 8px; }
+        .msg-bubble { max-width: 85%; padding: 8px 12px; border-radius: 8px; font-size: 12px; line-height: 1.4; }
+        .msg-bot { background-color: #ffffff; color: #333; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .msg-user { background-color: #ff4d94; color: white; align-self: flex-end; }
+        .chat-input-area { padding: 8px; background: #fff; border-top: 1px solid #eee; display: flex; gap: 6px; }
+        .chat-input-area input { flex: 1; padding: 6px 12px; border: 1px solid #ddd; border-radius: 20px; outline: none; font-size: 12px; }
+        .chat-input-area button { background: #ff4d94; color: white; border: none; padding: 0 12px; border-radius: 20px; cursor: pointer; font-size: 12px; }
+        .wa-direct-btn { display: block; text-align: center; background-color: #25d366; color: white; text-decoration: none; font-size: 10px; font-weight: bold; padding: 4px; border-radius: 4px; margin: 4px 10px; }
+
+        footer { background-color: #333; color: white; text-align: center; padding: 15px; font-size: 12px; }
+
+        /* --- Media Queries Desktop --- */
+        @media (min-width: 768px) {
+            header { flex-direction: row; padding: 15px 10%; gap: 0; }
+            nav { width: auto; justify-content: flex-start; padding-bottom: 0; }
+            .header-right { width: auto; }
+            .cart-icon { width: auto; }
+            .hero { padding: 60px 20px; }
+            .hero h1 { font-size: 38px; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+            .product-img { height: 220px; }
+            .product-title { font-size: 16px; }
+            .product-price { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container">
+            <div class="logo-badge-jla">
+                <span class="char-j">J</span><span class="char-l">L</span><span class="char-a">A</span>
+            </div>
+            <div class="logo-text">
+                <span class="logo-main">Jelusia<span>.</span></span>
+                <span class="logo-sub">Store</span>
+            </div>
+        </a>
+        <nav>
+            <a href="index.html" class="active">Katalog</a>
+            <a href="complain.html">Komplain & Return</a>
+            <a href="profile.html">Profil Toko</a>
+        </nav>
+        <div class="header-right">
+            <div class="cart-icon" onclick="toggleCart()">🛒 Keranjang (<span id="cart-count">0</span>)</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Selamat Berbelanja</h1>
+        <p>Temukan Baju dan Aksesoris favoritmu di Sini</p>
+    </section>
+
+    <div class="search-wrapper">
+        <input type="text" class="search-input" id="productSearchInput" placeholder="🔍 Cari produk favoritmu di sini..." onkeyup="searchProducts()">
+    </div>
+
+    <div class="container">
+        <h2>Katalog Produk</h2>
+        <div class="products-grid" id="productsGridContainer">
+            <div class="no-results-msg" id="noResultsMessage">Produk tidak ditemukan... 😢</div>
+            
+            <div class="product-card">
+                <img src="kemeja cowok.jpeg" alt="Kemeja pria" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Kemeja Pria Premium</div>
+                    <div class="product-price">Rp 125.000</div>
+                    <div class="product-options">
+                        <div>
+                            <label>Ukuran:</label>
+                            <select id="size-1"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+                        </div>
+                        <div>
+                            <label>Warna:</label>
+                            <select id="color-1"><option>Blue</option><option>Black</option><option>Grey</option><option>White</option></select>
+                        </div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Kemeja Pria Premium', 125000, 'size-1', 'color-1')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kemeja cowok2.jpeg" alt="Flanel" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Kemeja Flanel Premium</div>
+                    <div class="product-price">Rp 99.000</div>
+                    <div class="product-options">
+                        <div>
+                            <label>Ukuran:</label>
+                            <select id="size-2"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+                        </div>
+                        <div>
+                            <label>Warna:</label>
+                            <select id="color-2"><option>Krem</option><option>White</option><option>Orange</option></select>
+                        </div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Kemeja Flanel Premium', 99000, 'size-2', 'color-2')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kemeja cewek.jpeg" alt="Blouse" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Blouse Wanita Salur</div>
+                    <div class="product-price">Rp 50.000</div>
+                    <div class="product-options">
+                        <div><label>Ukuran:</label><select id="size-3"><option>All Size</option></select></div>
+                        <div><label>Warna:</label><select id="color-3"><option>Ivory</option><option>Black</option><option>Milo</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Blouse Wanita Salur', 50000, 'size-3', 'color-3')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kerudung.jpeg" alt="Hijab" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Hijab Paris</div>
+                    <div class="product-price">Rp 40.000</div>
+                    <div class="product-options">
+                        <div><label>Warna:</label><select id="color-4"><option>Ivory</option><option>Burgundy</option><option>Soft Latte</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Hijab Paris', 40000, null, 'color-4')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="GAMIS.JPEG" alt="Gamis" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Gamis Modern Elegant</div>
+                    <div class="product-price">Rp 185.000</div>
+                    <div class="product-options">
+                        <div><label>Ukuran:</label><select id="size-5"><option>M</option><option>L</option><option>XL</option></select></div>
+                        <div><label>Warna:</label><select id="color-5"><option>Mocca</option><option>Grey</option><option>Navy</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Gamis Modern Elegant', 185000, 'size-5', 'color-5')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kemeja cewek2.jpeg" alt="Blouse" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Blouse Wanita Bunga</div>
+                    <div class="product-price">Rp 75.000</div>
+                    <div class="product-options">
+                        <div><label>Ukuran:</label><select id="size-6"><option>All Size</option></select></div>
+                        <div><label>Warna:</label><select id="color-6"><option>Hitam</option><option>Ivory</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Blouse Wanita Bunga', 75000, 'size-6', 'color-6')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kaos kaki.jpeg" alt="Kaos Kaki" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Kaos Kaki Premium</div>
+                    <div class="product-price">Rp 15.000</div>
+                    <div class="product-options">
+                        <div><label>Ukuran:</label><select id="size-7"><option>Panjang</option><option>Pendek</option></select></div>
+                        <div><label>Warna:</label><select id="color-7"><option>Putih</option><option>Hitam</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Kaos Kaki Premium', 15000, 'size-7', 'color-7')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="jepitan.jpeg" alt="Jepitan" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Jepitan Rambut Korea</div>
+                    <div class="product-price">Rp 25.000</div>
+                    <div class="product-options">
+                        <div><label>Warna:</label><select id="color-8"><option>Ivory</option><option>Mahogany</option><option>Lillac</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Jepitan Rambut Korea', 25000, null, 'color-8')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kunciran.jpeg" alt="Kunciran" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Kunciran Scrunchie</div>
+                    <div class="product-price">Rp 10.000</div>
+                    <div class="product-options">
+                        <div><label>Warna:</label><select id="color-9"><option>Ivory</option><option>Coksu</option><option>Hitam</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Kunciran Scrunchie', 10000, null, 'color-9')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="celana cowok.jpeg" alt="Jeans" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Jeans Kekinian</div>
+                    <div class="product-price">Rp 135.000</div>
+                    <div class="product-options">
+                        <div><label>Ukuran:</label><select id="size-10"><option>32</option><option>34</option><option>36</option></select></div>
+                        <div><label>Warna:</label><select id="color-10"><option>Hitam</option><option>Midblue</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Jeans Kekinian', 135000, 'size-10', 'color-10')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="kacamata.jpeg" alt="Kacamata" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Kacamata Retro</div>
+                    <div class="product-price">Rp 20.000</div>
+                    <div class="product-options">
+                        <div><label>Bentuk:</label><select id="size-11"><option>Bulat</option><option>Kotak</option></select></div>
+                        <div><label>Warna:</label><select id="color-11"><option>Hitam</option><option>Pink</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Kacamata Retro', 20000, 'size-11', 'color-11')">Beli</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="jam.jpeg" alt="Jam" class="product-img">
+                <div class="product-info">
+                    <div class="product-title">Jam Tangan Aesthetic</div>
+                    <div class="product-price">Rp 60.000</div>
+                    <div class="product-options">
+                        <div><label>Bentuk:</label><select id="size-12"><option>Bulat</option><option>Kotak</option></select></div>
+                        <div><label>Warna:</label><select id="color-12"><option>Hitam</option><option>Coklat</option></select></div>
+                    </div>
+                    <button class="btn-buy" onclick="addToCart('Jam Tangan Aesthetic', 60000, 'size-12', 'color-12')">Beli</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3>Keranjang Anda</h3>
+            <span class="close-cart" onclick="toggleCart()">✕</span>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        
+        <div class="shipping-container">
+            <h4>Ekspedisi Pengiriman</h4>
+            <label class="shipping-option">
+                <input type="radio" name="shipping_method" value="J&T Express" data-cost="12000" checked onclick="updateCartUI()">
+                <div class="shipping-box"><span class="icon">🚚</span><div class="shipping-details"><strong>J&T Express</strong><p>Rp 12.000 (2-3 Hari)</p></div></div>
+            </label>
+            <label class="shipping-option">
+                <input type="radio" name="shipping_method" value="JNE Reguler" data-cost="14000" onclick="updateCartUI()">
+                <div class="shipping-box"><span class="icon">📦</span><div class="shipping-details"><strong>JNE Reguler</strong><p>Rp 14.000 (2-4 Hari)</p></div></div>
+            </label>
+            <label class="shipping-option">
+                <input type="radio" name="shipping_method" value="SiCepat Express" data-cost="11000" onclick="updateCartUI()">
+                <div class="shipping-box"><span class="icon">⚡</span><div class="shipping-details"><strong>SiCepat HALU</strong><p>Rp 11.000 (1-3 Hari)</p></div></div>
+            </label>
+        </div>
+        
+        <div class="payment-container">
+            <h4>Metode Pembayaran</h4>
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="Cash on Delivery (COD)" checked>
+                <div class="payment-box"><span class="icon">💵</span><div class="payment-details"><strong>COD (Bayar di Tempat)</strong></div></div>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="QRIS (E-Wallet)">
+                <div class="payment-box"><span class="icon">📱</span><div class="payment-details"><strong>QRIS (All E-Wallet)</strong></div></div>
+            </label>
+            <label class="payment-option">
+                <input type="radio" name="payment_method" value="Transfer Bank BCA">
+                <div class="payment-box"><span class="icon">🏦</span><div class="payment-details"><strong>Transfer BCA</strong></div></div>
+            </label>
+        </div>
+
+        <div class="cart-total"><span>Total:</span><span id="cartTotal">Rp 0</span></div>
+        <button class="btn-checkout" onclick="checkoutWhatsApp()">Pesan via WhatsApp 💬</button>
+    </div>
+
+    <div class="chat-widget-container">
+        <button class="chat-launcher-btn" onclick="toggleChatWindow()">💬</button>
+        <div class="chat-box-window" id="chatBoxWindow">
+            <div class="chat-box-header">
+                <div><span class="status-dot"></span><h3>Asisten Virtual Jelusia</h3></div>
+                <span style="cursor:pointer;" onclick="toggleChatWindow()">✕</span>
+            </div>
+            <div class="chat-messages-area" id="chatMessagesArea">
+                <div class="msg-bubble msg-bot">Halo! Ada yang bisa kami bantu? Ketik kata kunci: <strong>stok</strong>, <strong>order</strong>, <strong>ongkir</strong>.</div>
+            </div>
+            <a href="https://api.whatsapp.com/send?phone=6283891287369&text=Halo%20Admin" target="_blank" class="wa-direct-btn">Bicara dengan Admin (WA) 🟢</a>
+            <div class="chat-input-area">
+                <input type="text" id="chatUserMsg" placeholder="Ketik pertanyaan..." onkeypress="handleChatKeyPress(event)">
+                <button onclick="sendUserChatMessage()">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>&copy; 2026 Jelusia Store. All Rights Reserved.</p></footer>
+
+    <script>
+        let cart = [];
+        function toggleCart() { document.getElementById('cartModal').classList.toggle('active'); }
+        function toggleChatWindow() { document.getElementById('chatBoxWindow').classList.toggle('active'); }
+        
+        function searchProducts() {
+            const filter = document.getElementById('productSearchInput').value.toLowerCase().trim();
+            const cards = document.getElementsByClassName('product-card');
+            const noResults = document.getElementById('noResultsMessage');
+            let count = 0;
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByClassName('product-title')[0].innerText.toLowerCase();
+                if (title.indexOf(filter) > -1) { cards[i].style.display = ""; count++; } 
+                else { cards[i].style.display = "none"; }
+            }
+            noResults.style.display = count === 0 ? "block" : "none";
+        }
+
+        function addToCart(title, price, sizeId, colorId) {
+            const size = sizeId ? document.getElementById(sizeId).value : 'All Size';
+            const color = colorId ? document.getElementById(colorId).value : 'Default';
+            const item = cart.find(i => i.title === title && i.size === size && i.color === color);
+            if (item) { item.qty++; } else { cart.push({ title, price, size, color, qty: 1 }); }
+            updateCartUI();
+            alert('Berhasil ditambah ke keranjang!');
+        }
+
+        function changeQty(index, change) {
+            cart[index].qty += change;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = '';
+            let total = 0, count = 0;
+            cart.forEach((item, i) => {
+                let sub = item.price * item.qty;
+                total += sub; count += item.qty;
+                container.innerHTML += `<div class="cart-item">
+                    <div class="cart-item-details"><strong>${item.title}</strong><small>${item.size} / ${item.color}</small>
+                    <div class="cart-qty-controls"><button class="btn-qty" onclick="changeQty(${i}, -1)">-</button><span class="cart-qty-num">${item.qty}</span><button class="btn-qty" onclick="changeQty(${i}, 1)">+</button></div></div>
+                    <div class="cart-item-right"><span class="item-nominal-price">Rp ${sub.toLocaleString('id-ID')}</span><button class="btn-delete" onclick="cart.splice(${i},1);updateCartUI();">🗑️</button></div>
+                </div>`;
+            });
+            let shipping = cart.length > 0 ? parseInt(document.querySelector('input[name="shipping_method"]:checked').getAttribute('data-cost')) : 0;
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cartTotal').innerText = 'Rp ' + (total + shipping).toLocaleString('id-ID');
+        }
+
+        function checkoutWhatsApp() {
+            if(cart.length === 0) return alert('Keranjang kosong!');
+            const shipping = document.querySelector('input[name="shipping_method"]:checked').value;
+            const payment = document.querySelector('input[name="payment_method"]:checked').value;
+            let msg = "Halo Jelusia Store, saya mau pesan:\n\n";
+            let total = 0;
+            cart.forEach((item, i) => {
+                let sub = item.price * item.qty; total += sub;
+                msg += `${i+1}. ${item.title} (${item.size}/${item.color}) x${item.qty} = Rp ${sub.toLocaleString('id-ID')}\n`;
+            });
+            msg += `\nKurir: ${shipping}\nBayar: ${payment}\n*Total Akhir: Rp ${(total + (cart.length > 0 ? 12000 : 0)).toLocaleString('id-ID')}*`;
+            window.open(`https://api.whatsapp.com/send?phone=6283891287369&text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function handleChatKeyPress(e) { if(e.key === 'Enter') sendUserChatMessage(); }
+        function sendUserChatMessage() {
+            const input = document.getElementById('chatUserMsg');
+            const txt = input.value.trim(); if(!txt) return;
+            const area = document.getElementById('chatMessagesArea');
+            area.innerHTML += `<div class="msg-bubble msg-user">${txt}</div>`;
+            input.value = ''; area.scrollTop = area.scrollHeight;
+            setTimeout(() => {
+                let reply = "Maaf, silakan hubungi admin langsung ya kak.";
+                if(txt.toLowerCase().includes('stok')) reply = "Semua katalog produk di web **Ready Stok** ya kak!";
+                if(txt.toLowerCase().includes('order')) reply = "Pilih barang, klik beli, lalu buka keranjang untuk checkout via WA.";
+                if(txt.toLowerCase().includes('ongkir')) reply = "Ongkir otomatis terhitung di halaman keranjang belanjaan.";
+                area.innerHTML += `<div class="msg-bubble msg-bot">${reply}</div>`;
+                area.scrollTop = area.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>        

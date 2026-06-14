@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Toko - Jelusia Store</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f9f9f9; color: #333; }
+        
+        header { background-color: #ffffff; padding: 15px 5%; display: flex; flex-direction: column; gap: 15px; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; text-decoration: none; gap: 12px; }
+        .logo-badge-jla { background: linear-gradient(135deg, #ff4d94, #ff85a2); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
+        .logo-text { display: flex; flex-direction: column; }
+        .logo-main { font-size: 22px; font-weight: 800; color: #1a1a1a; }
+        .logo-main span { color: #ff4d94; }
+        .logo-sub { font-size: 10px; font-weight: 700; color: #777; letter-spacing: 3px; text-transform: uppercase; }
+
+        nav { display: flex; gap: 10px; width: 100%; justify-content: center; overflow-x: auto; }
+        nav a { text-decoration: none; color: #555; font-weight: 600; font-size: 14px; padding: 6px 12px; border-radius: 15px; }
+        nav a.active { color: #ff4d94; background-color: #fff0f5; }
+
+        .container { padding: 30px 5%; max-width: 900px; margin: 0 auto; }
+        h2, h3 { text-align: center; color: #444; margin-bottom: 20px; }
+        
+        /* --- Rating Toko Utama (Terpisah) --- */
+        .store-rating-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #eee; margin-bottom: 30px; }
+        .big-rating { font-size: 42px; font-weight: 800; color: #ffcc00; margin-bottom: 5px; }
+        .rating-stars { color: #ffcc00; font-size: 20px; margin-bottom: 8px; }
+        .rating-count { font-size: 13px; color: #777; }
+
+        /* --- Ulasan Pelanggan Grid --- */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .review-card { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-left: 4px solid #ff4d94; }
+        .review-item-name { font-size: 12px; font-weight: bold; background-color: #f0f2f5; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; color: #555; }
+        .review-stars-product { color: #ffcc00; font-size: 14px; margin-bottom: 6px; }
+        .review-text { font-style: italic; color: #555; font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
+        .review-author { font-weight: bold; font-size: 12px; color: #222; }
+
+        /* --- Tim Pengurus --- */
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .team-card { background: white; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.04); border-top: 4px solid #ff4d94; }
+        .team-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ff4d94; margin: 0 auto 12px; display: block; }
+        .team-name { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 4px; }
+        .team-role { font-size: 13px; color: #777; }
+
+        footer { background-color: #333; color: white; text-align: center; padding: 15px; font-size: 12px; margin-top: 40px; }
+
+        @media (min-width: 768px) {
+            header { flex-direction: row; padding: 15px 10%; justify-content: space-between; }
+            nav { width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container">
+            <div class="logo-badge-jla">JLA</div>
+            <div class="logo-text"><span class="logo-main">Jelusia<span>.</span></span><span class="logo-sub">Store</span></div>
+        </a>
+        <nav>
+            <a href="index.html">Katalog</a>
+            <a href="complain.html">Komplain & Return</a>
+            <a href="profile.html" class="active">Profil Toko</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Performa & Rating Toko</h2>
+        <div class="store-rating-card">
+            <div class="big-rating">4.9</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">99% Pelanggan Puas Belanja di Sini (Dari 1.250 Ulasan)</div>
+        </div>
+
+        <h3>Ulasan Kepuasan Produk</h3>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <span class="review-item-name">📦 Gamis Modern Elegant</span>
+                <div class="review-stars-product">★★★★★</div>
+                <div class="review-text">"Bahan gamisnya adem banget dan jahitannya rapi, motifnya juga lucu sesuai foto."</div>
+                <div class="review-author">- Amanda R.</div>
+            </div>
+            <div class="review-card">
+                <span class="review-item-name">📦 Kemeja Flanel Premium</span>
+                <div class="review-stars-product">★★★★★</div>
+                <div class="review-text">"Kemeja flanelnya bagus, pas dikirim sesuai pesanan adminnya juga sangat responsif."</div>
+                <div class="review-author">- Dimas S.</div>
+            </div>
+        </div>
+
+        <h3>Tim Pengurus Toko (Kelompok 7)</h3>
+        <div class="team-grid">
+            <div class="team-card">
+                <img src="foto aul.jpeg" alt="Aulia" class="team-avatar">
+                <div class="team-name">Aulia Sopana</div>
+                <div class="team-role">Operasional & Administrasi</div>
+            </div>
+            <div class="team-card">
+                <img src="foto lusi.jpeg" alt="Lusi" class="team-avatar">
+                <div class="team-name">Lusi Aprianti</div>
+                <div class="team-role">Pelayanan & Penjualan</div>
+            </div>
+            <div class="team-card">
+                <img src="foto jaki.jpeg" alt="Dzaki" class="team-avatar">
+                <div class="team-name">M. Dzaki Khairullah</div>
+                <div class="team-role">Management Team</div>
+            </div>
+        </div>
+    </div>
+
+    <footer><p>&copy; 2026 Jelusia Store. All Rights Reserved.</p></footer>
+</body>
+</html>
